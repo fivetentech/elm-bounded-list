@@ -11,6 +11,7 @@ let
       prettier = {
         excludes = [
           "review/suppressed/"
+          "elm.json"
         ];
         enable = true;
       };
@@ -40,6 +41,8 @@ pkgs.mkShell ({
     pkgs.elmPackages.elm-review
     pkgs.elmPackages.elm-language-server
     pkgs.elmPackages.elm-json
+    pkgs.elmPackages.elm-test
+    pkgs.elmPackages.elm-doc-preview
     pkgs.nodejs-14_x
     pkgs.yarn
     blockNPM
@@ -52,6 +55,4 @@ pkgs.mkShell ({
     ${pre-commit-check.shellHook}
   '';
 
-}) 
-
-
+})
