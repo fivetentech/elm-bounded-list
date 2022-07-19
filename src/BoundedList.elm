@@ -1,7 +1,7 @@
 module BoundedList exposing
     ( BoundedList
     , empty, fromList
-    , appendEnd, appendStart, toList
+    , appendEnd, appendStart, toList, cons, addLast
     )
 
 {-| BoundedList are just list with a set maximum size. If you've reached the max size and add more elements, then some will be dropped!
@@ -19,9 +19,11 @@ module BoundedList exposing
 
 # Manipulating BoundedLists
 
-@docs appendEnd, appendStart, toList
+@docs appendEnd, appendStart, toList, cons, addLast
 
 -}
+
+import String exposing (fromList)
 
 
 {-| A list of `itemType` that will have a maximum number of items within.
@@ -146,3 +148,40 @@ appendEnd (BoundedList maxSize list) newItems =
 
         else
             BoundedList maxSize (list ++ newItems)
+
+
+{-| Adds an item at the end of the list dropping one from the start if the list is already at max capacity
+
+    (fromList 2 [ 1, 2, 3 ] |> addLast 4 |> toList) == [ 3, 4 ]
+
+    (fromList 4 [ 1, 2, 3 ] |> addLast 4 |> toList) == [ 1, 2, 3, 4 ]
+
+    (fromList 4 [ 1, 2, 3 ] |> addLast 4 |> addLast 5 |> toList) == [ 2, 3, 4, 5 ]
+
+-}
+addLast : a -> BoundedList a -> BoundedList a
+addLast item (BoundedList maxSize list) =
+    fromList maxSize (list ++ [ item ])
+
+
+{-| Adds an item at the start of the list and drops one at the end if needed
+
+    (fromList 2 [ 1, 2, 3 ] |> cons 4 |> toList) == [ 4, 1 ]
+
+    (fromList 4 [ 1, 2, 3 ] |> addLast 4 |> toList) == [ 4, 1, 2, 3 ]
+
+    (fromList 4 [ 1, 2, 3 ] |> addLast 4 |> addLast 5 |> toList) == [ 5, 4, 1, 2 ]
+
+-}
+cons : a -> BoundedList a -> BoundedList a
+cons item (BoundedList maxSize list) =
+    if (List.length list + 1) > maxSize then
+        -- drop the last item of list and continue
+        list
+            |> List.take (maxSize - 1)
+            |> (::) item
+            -- safe guarding for a maxSize of 0 or negative ...
+            |> fromList maxSize
+
+    else
+        BoundedList maxSize (item :: list)
