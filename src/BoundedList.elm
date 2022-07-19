@@ -23,8 +23,6 @@ module BoundedList exposing
 
 -}
 
-import String exposing (fromList)
-
 
 {-| A list of `itemType` that will have a maximum number of items within.
 
