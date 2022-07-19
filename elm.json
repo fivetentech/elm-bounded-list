@@ -3,7 +3,7 @@
     "name": "fivetentech/elm-bounded-list",
     "summary": "A list with a maximum capacity",
     "license": "MIT",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "exposed-modules": [
         "BoundedList"
     ],
