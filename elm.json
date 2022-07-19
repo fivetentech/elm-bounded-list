@@ -1,6 +1,6 @@
 {
   "type": "package",
-  "name": "fiveten/bounded-list",
+  "name": "fivetentech/elm-bounded-list",
   "summary": "A list with a maximum capacity",
   "license": "MIT",
   "version": "1.0.0",
